@@ -351,7 +351,8 @@ class ThingworxXMLParser:
         #export mashup, thing, thingShape, Thing Template etc
         group_node = self.root.find("./{}s".format(component_name))
         if group_node == None:
-            raise ValueError("Can't find node parent for node:{}".format(component_name))
+            #raise ValueError("Can't find node parent for node:{}".format(component_name))
+            return  #if only export from single file like thing.xml
 
         component_nodes = group_node.findall("./{}".format(component_name))
         component_folder = ""

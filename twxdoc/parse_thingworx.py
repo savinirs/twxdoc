@@ -56,21 +56,16 @@ if __name__ == '__main__':
     source_file, rootfolder, kw = commandline_parser()
 
     twx_parser = None
+    print("file:{}, folder:{}, kw:{}".format(source_file, rootfolder, kw))
     if source_file.lower().endswith('.xml'):
         twx_parser = TWXXMLParser.ThingworxXMLParser(source_file, rootfolder,**kw)
 
-        print("file:{}, folder:{}, kw:{}".format(source_file, rootfolder, kw))
+
         twx_parser.export()
-        print("Done for {}.".format(source_file))
+
     elif source_file.lower().endswith('.json') and kw.get('isData'):
         twx_parser = TWXDataParser.ThingworxJSONDataParser(source_file, rootfolder, **kw)
     elif source_file.lower().endswith('.json') and (not kw.get('isData')):
         twx_parser = TWXEntityParser.ThingworxJSONEntityParser(source_file, rootfolder, **kw)
 
-    print("file:{}, folder:{}, kw:{}".format(source_file, rootfolder, kw))
-
-    if twx_parser != None:
-        twx_parser.export()
-        print("Done for {}.".format(source_file))
-    else:
-        print("Unsupported format!")
+    print("Done for {}.".format(source_file))
