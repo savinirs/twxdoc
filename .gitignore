@@ -4,7 +4,10 @@ __pycache__/
 *$py.class
 .idea/
 .idea/twxdoc.iml
-
+Scripts/
+tcl/
+Lib/
+Include/
 bin/
 include/
 pip-selfcheck.json
