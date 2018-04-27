@@ -36,6 +36,62 @@ class SpecificUpdate:
         self.root = self.tree.getroot()
         print("Tree:{}, Root:{}, len:{}".format(self.tree, self.root.tag, len(self.root)))
 
+    def RemoveNodes(self, **kw):
+        if self.tree == None or self.root == None:
+            raise ValueError("Can't find parsed tree or root element.")
+
+        export_file = os.path.join(os.path.dirname(self.xmlfile),
+                                   os.path.splitext(os.path.basename(self.xmlfile))[0] + '_update.xml')
+        nodeName = kw.get("nodeName","")
+        attName = kw.get("attName","")
+        attValues = kw.get("attValues", [])
+
+        if nodeName =="":
+            raise ValueError("node name can't be empty!")
+
+        parentNodes = self.root.findall("./{}s".format(nodeName))
+        for parentNode in parentNodes:
+            baseSearchString = "./"+nodeName
+
+            if len(attValues) != 0 and attName != "":
+                for attValue in attValues:
+                    searchString =baseSearchString + "[@{}='{}']".format(attName,attValue)
+
+                    print("Searching node:{}".format(searchString))
+
+                    targetNodes = parentNode.findall(searchString)
+                    for targetNode in targetNodes:
+                        print("Removing one node with value:{}...".format(attValue))
+                        parentNode.remove(targetNode)
+
+            elif attName != "" and len(attValues) == 0:
+                searchString = baseSearchString + "[@{}]".format(attName)
+
+                print("Searching node:{}".format(searchString))
+
+                targetNodes = parentNode.findall(searchString)
+                for targetNode in targetNodes:
+                    print("Removing one node......")
+                    parentNode.remove(targetNode)
+
+        self.tree.write(export_file, encoding="UTF-8", xml_declaration=True)
+        print("Update {} to {}".format(self.xmlfile, export_file))
+
+
+    def RemovePersistenceProviders(self):
+        if self.tree == None or self.root == None:
+            raise ValueError("Can't find parsed tree or root element.")
+
+        export_file = os.path.join(os.path.dirname(self.xmlfile),
+                                   os.path.splitext(os.path.basename(self.xmlfile))[0] + '_update.xml')
+        targetNodes = self.root.findall("./PersistenceProviders")
+        for targetNode in targetNodes:
+            print("Removing one node......")
+            self.root.remove(targetNode)
+
+        self.tree.write(export_file, encoding="UTF-8", xml_declaration=True)
+        print("Update {} to {}".format(self.xmlfile, export_file))
+
     def UpdateApplicationKey(self,name, newkey):
         #update a specific application key with new value
         if self.tree == None or self.root == None:
