@@ -9,8 +9,9 @@
 
 # How to Parse XML file
 1) Download thingworx entities as xml file. (for example: AllEntities.xml)
-2) python twxodc/parse_thingworx.py -file yourpath/AllEntities.xml
+2) python twxdoc/parse_thingworx.py -file yourpath/AllEntities.xml
 3) XML file will be splitted into differnet pieces under folder yourpath/AllEntities_export folder. (AllEntities can be any file name you gave)
+4) Service and Subscription will be put in dedicated folder.
 
 
 # How to decode a TWX file to JSON file
